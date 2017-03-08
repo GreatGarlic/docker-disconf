@@ -2,10 +2,16 @@ disconf-redis:
     image: redis:3.0
 disconf-mysql:
     build: ../disconf-mysql
+    volumes:
+     - ../disconf-mysql/files/sql:/docker-entrypoint-initdb.d
+     - ../disconf-mysql/data:/var/lib/mysql
 disconf-zoo:
     build: ../disconf-zoo
+    volumes:
+     - ../disconf-zoo/conf:/opt/zookeeper/conf
+     - ../disconf-zoo/tmp:/tmp/zookeeper
     ports:
-        - "2181:2181"
+        - "6331:2181"
 disconf-app:
     build: ../disconf-app
     links:
@@ -23,6 +29,6 @@ disconf-nginx:
         - ../disconf-build/working/war/html:/home/work/dsp/disconf-rd/war/html:ro
         - ../disconf-nginx/logs:/home/work/var/logs/disconf
     ports:
-        - "8081:8081"
+        - "6332:8081"
 
 
