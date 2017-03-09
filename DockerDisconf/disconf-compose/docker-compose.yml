@@ -1,12 +1,15 @@
 disconf-redis:
     image: redis:3.0
+    restart: always
 disconf-mysql:
     build: ../disconf-mysql
+    restart: always
     volumes:
      - ../disconf-mysql/files/sql:/docker-entrypoint-initdb.d
      - ../disconf-mysql/data:/var/lib/mysql
 disconf-zoo:
     build: ../disconf-zoo
+    restart: always
     volumes:
      - ../disconf-zoo/conf:/opt/zookeeper/conf
      - ../disconf-zoo/tmp:/tmp/zookeeper
@@ -14,6 +17,7 @@ disconf-zoo:
         - "6331:2181"
 disconf-app:
     build: ../disconf-app
+    restart: always
     links:
         - disconf-redis
         - disconf-mysql
@@ -22,6 +26,7 @@ disconf-app:
         - ../disconf-build/working/war:/home/work/dsp/disconf-rd/war
 disconf-nginx:
     image: nginx:1.9
+    restart: always
     links:
         - disconf-app
     volumes:
