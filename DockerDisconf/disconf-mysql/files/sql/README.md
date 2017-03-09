@@ -1,5 +1,6 @@
-MySQL启动后将依次执行本目录中的SQL以初始化
+为了方便大家开发，统一了所有SQL，请先后执行：
 
-From official [MySQL Docker image doc](https://hub.docker.com/_/mysql/):
-
-When a container is started for the first time, a new database mysql will be initialized with the provided configuration variables. Furthermore, it will execute files with extensions .sh and .sql that are found in /docker-entrypoint-initdb.d.
+- 0-init_table.sql        create db,tables
+- 1-init_data.sql         create data
+- 201512/20151225.sql     patch
+- 20160701/20160701.sql   patch
