@@ -1,10 +1,6 @@
 package com.baidu.dsp.common.utils.email;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import com.baidu.disconf.web.config.ApplicationPropertyConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +10,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.baidu.disconf.web.config.ApplicationPropertyConfig;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 /**
  * 邮件发送公共类
@@ -67,7 +67,17 @@ public class MailBean implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.host", emailProperties.getEmailHost());
+        javaMailProperties.put("mail.smtp.socketFactory.port", emailProperties.getEmailPort());
+        javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.smtp.port", emailProperties.getEmailPort());
+
+        mailSender.setJavaMailProperties(javaMailProperties);
         mailSender.setHost(emailProperties.getEmailHost());
+
 
         if (!StringUtils.isEmpty(emailProperties.getEmailUser())) {
             mailSender.setUsername(emailProperties.getEmailUser());
