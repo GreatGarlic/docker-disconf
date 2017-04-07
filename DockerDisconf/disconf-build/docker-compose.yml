@@ -1,0 +1,12 @@
+version: '2'
+services:
+        disconf-build:
+            build: ./
+            image: disconf-build:2.0.0
+            volumes:
+                 - ./working:/home/work/dsp/disconf-rd/working
+                 - ./config:/home/work/dsp/disconf-rd/online-resources
+                 - ./disconf:/disconf
+            container_name: disconf-build
+
+
